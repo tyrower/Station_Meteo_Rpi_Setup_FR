@@ -171,6 +171,15 @@ Consulter les données :
 * USE weather;
 * SELECT * FROM WEATHER_MEASUREMENT;
 
+Paramétrer Identifiant/MdP pour Oracle DB
+* cd ~/weather-station
+* nano credentials.oracle.template
+* mv credentials.oracle.template credentials.oracle
+
+Vérifier connexion en téléversement : 
+* sudo ~/weather-station/upload_to_oracle.py
+
+
 
 
 
