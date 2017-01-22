@@ -33,7 +33,7 @@ Nous avons quelques modifications à faire au démarrage du système donc on va 
 Ajouter les lignes suivantes en bas de fichier : 
 * dtoverlay=w1-gpio
 * dtoverlay=pcf8523-rtc
-CRTL + O, Entrer, CTRL + X pour enregistrer et sortir.
+CTRL + O, Entrer, CTRL + X pour enregistrer et sortir.
 Puis 
 * sudo nano /etc/modules
 Ajouter en bas de fichier : 
@@ -91,6 +91,41 @@ Clé :
 6a = MCP3427, le convertisseur Anaogue-Numérique sur la carte secondaire de qualité d'air.
 
 Création et configuration de la base de données : 
+Installer les paquets requis : 
+* sudo apt-get update
+* sudo sudo apt-get install apt-transport-https
+* sudo apt-get install apache2 mysql-server python-mysqldb php5 libapache2-mod-php5 php5-mysql -y
+
+Créer un mot de passe "root" pour votre accès aux bases de données.
+
+Créer une nouvelle bdd : 
+* mysql -u root -p
+* CREATE DATABASE weather;
+* USE weather;
+
+Créer une table pour stocker les données : 
+CREATE TABLE WEATHER_MEASUREMENT(
+    ID BIGINT NOT NULL AUTO_INCREMENT,
+    REMOTE_ID BIGINT,
+    AMBIENT_TEMPERATURE DECIMAL(6,2) NOT NULL,
+    GROUND_TEMPERATURE DECIMAL(6,2) NOT NULL,
+    AIR_QUALITY DECIMAL(6,2) NOT NULL,
+    AIR_PRESSURE DECIMAL(6,2) NOT NULL,
+    HUMIDITY DECIMAL(6,2) NOT NULL,
+    WIND_DIRECTION DECIMAL(6,2) NULL,
+    WIND_SPEED DECIMAL(6,2) NOT NULL,
+    WIND_GUST_SPEED DECIMAL(6,2) NOT NULL,
+    RAINFALL DECIMAL (6,2) NOT NULL,
+    CREATED TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY ( ID )
+  );
+  
+Sortir de MYSQL avec la commande "exit" ou CTRL + D
+  
+  
+
+
+
 
 
 
