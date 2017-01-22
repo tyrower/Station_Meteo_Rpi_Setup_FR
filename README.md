@@ -25,7 +25,28 @@ CLI > sudo raspi-config > Interfacing options
 Ou via mode Graphique : 
 Preferences > Raspberry Pi Configuration > Onglet 4 "Localisation"
 
-* 
+* Télécharger les fichiers nécessaires à l'installation de la station météo : 
+cd ~ && git clone https://github.com/raspberrypi/weather-station
+
+Nous avons quelques modifications à faire au démarrage du système donc on va modifier la configuration dans le fichier "config.txt"
+* sudo nano /boot/config.txt
+Ajouter les lignes suivantes en bas de fichier : 
+* dtoverlay=w1-gpio
+* dtoverlay=pcf8523-rtc
+CRTL + O, Entrer, CTRL + X pour enregistrer et sortir.
+Puis 
+* sudo nano /etc/modules
+Ajouter en bas de fichier : 
+* i2c-dev
+* w1-therm
+CRTL + O, Entrer, CTRL + X pour enregistrer et sortir.
+
+* sudo halt
+Brancher le Weather Station HAT
+Redémarrer puis tester que l'horloge embarqué "RTC" est bien active avec la commande :
+* ls /dev/rtc* 
+Ca devrait donner "/dev/rtc0"
+
 
 
 
