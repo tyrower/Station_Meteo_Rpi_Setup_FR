@@ -122,7 +122,24 @@ CREATE TABLE WEATHER_MEASUREMENT(
   
 Sortir de MYSQL avec la commande "exit" ou CTRL + D
   
-  
+Installer l'application pour les capteurs : 
+* cd ~
+* git clone https://github.com/raspberrypi/weather-station.git
+Il est fort probable que ce repertoire existe déjà. 
+
+Démarrer et tester le serveur (daemon) "Weather Station"
+* sudo ~/weather-station/interrupt_daemon.py start
+
+Se connecter pour tester les données : 
+* telnet localhost 49501
+
+Envoyer des commandes :
+Les commandes de texte peuvent être envoyées : 
+RAIN: affichage de la quantité de pluie en ml
+WIND: affichage de la vitesse du vent en kph
+GUST: affichage de la vitesse maximale de rafale de vent en kph
+RESET: Remise à zéro des valeurs de pleuviométrie et de l'anénomètre 
+BYE: quitter
 
 
 
