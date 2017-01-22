@@ -43,16 +43,54 @@ CRTL + O, Entrer, CTRL + X pour enregistrer et sortir.
 
 * sudo halt
 Brancher le Weather Station HAT
+
+Partie Horloge Temps Réel ("RTC")
 Redémarrer puis tester que l'horloge embarqué "RTC" est bien active avec la commande :
 * ls /dev/rtc* 
 Ca devrait donner "/dev/rtc0"
 
+Après reboot, vérifier l'heure et date du système avec : 
+* date
+Si tout est correct, valider les informations avec 
+* sudo hwclock -w
 
+Mettre à jour le fichier :
+* sudo nano /lib/udev/hwclock-set
+avec les détails suivants : 
+if [ yes = "$BADYEAR" ] ; then
+    /sbin/hwclock --rtc=$dev --hctosys --badyear
+else
+    /sbin/hwclock --rtc=$dev --hctosys
+fi
 
+Enlever le paquet d'horloge factice :
+* sudo update-rc.d fake-hwclock remove
+* sudo apt-get remove fake-hwclock -y
 
+Vérifier les capteurs 
+Commencer par installer les paquets dépendents : 
+* sudo apt-get install i2c-tools python-smbus telnet -y
+Retrouver les modules I2C avec la commande : 
+* sudo i2cdetect -y 1
+qui devrait donner ceci (ou similaire) : 
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+40: 40 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+60: -- -- -- -- -- -- -- -- UU 69 6a -- -- -- -- -- 
+70: -- -- -- -- -- -- -- 77        
 
+Clé : 
+40 = HTU21D, la sonde d'humidié et temperature.
+77 = BMP180, capteur de pression atmosphérique
+68 = PCF8523, l'horloge "temps réel" (RTC). Ça devrait s'afficher comme "UU" car il est déjà réservé par le pilote. 
+69 = MCP3427, le convertisseur Anaogue-Numérique sur la carte principale.
+6a = MCP3427, le convertisseur Anaogue-Numérique sur la carte secondaire de qualité d'air.
 
-
+Création et configuration de la base de données : 
 
 
 
