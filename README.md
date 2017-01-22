@@ -141,6 +141,42 @@ GUST: affichage de la vitesse maximale de rafale de vent en kph
 RESET: Remise à zéro des valeurs de pleuviométrie et de l'anénomètre 
 BYE: quitter
 
+Lancer le daemon/service Station Météo au Démarrage du Pi
+* sudo nano /etc/rc.local
+
+Ajouter les lignes : 
+* echo "Starting Weather Station daemon..."
+* /home/pi/weather-station/interrupt_daemon.py start
+avant "exit 0" 
+Enregistrer et quitter CTRL + O, Entrer et CTRL +X.
+
+Paramétrer les accès BDD dans MYSQL
+* cd ~/weather-station
+* nano credentials.mysql
+Ajouter le mot de passe configuré à la création de la base de données. 
+
+Automatiser la mise à jour de la base de données : 
+Pour démarrer : 
+* crontab < crontab.save
+Pour arreter : 
+* crontab -r
+Réactiver :
+* crontab < ~/weather-station/crontab.save
+
+Lancement manuel du script : 
+* sudo ~/weather-station/log_all_sensors.py
+
+Consulter les données : 
+* mysql -u root -p
+* USE weather;
+* SELECT * FROM WEATHER_MEASUREMENT;
+
+
+
+
+
+
+
 
 
 
